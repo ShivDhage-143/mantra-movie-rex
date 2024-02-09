@@ -9,7 +9,6 @@ import { getApiConfiguration, getGenres } from "./store/homeSlice";
 
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
-import Home from "./pages/home/home";
 import Details from "./pages/details/Details";
 import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
@@ -20,7 +19,7 @@ import PageNotFound from "./pages/404/PageNotFound";
 function App() {
   const dispatch = useDispatch();
   const {url} = useSelector((state) => state.home);
-  console.log(url);
+  
 
   useEffect(() => {
     fetchApiConfig();
@@ -29,7 +28,6 @@ function App() {
   const fetchApiConfig = () =>  {
     fetchDataFromApi("/configuration")
     .then((res) => {
-      console.log(res);
       
       const url = {
         backdrop: res.images.secure_base_url + "original",
@@ -66,7 +64,7 @@ function App() {
                 <Header></Header>
               <Routes>
                    
-                <Route path="/" element={<Home></Home>}></Route>
+                <Route path="/" element={<Explore></Explore>}></Route>
 
                 <Route path="/:mediaType/:id" element={<Details></Details>}></Route>
 

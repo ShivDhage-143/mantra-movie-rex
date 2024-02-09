@@ -35,7 +35,7 @@
             &.genresDD {
                 width: 100%;
                 @include md {
-                    max-width: 500px;
+                    max-width: 250px;
                     min-width: 250px;
                 }
             }
@@ -45,6 +45,8 @@
                 @include md {
                     width: 250px;
                 }
+            }
+            
             }
             .react-select__control {
                 border: 0;
@@ -84,7 +86,36 @@
                 padding: 0;
             }
         }
-    }
+        .dateFilters {
+            background-color: var(--black); 
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+        
+            
+            input[type='date'] {
+                background-color: var(--black-light); 
+                color: white; 
+                border: none; 
+                padding: 10px; 
+                border-radius:20px; 
+                width: 80%; 
+                margin-bottom: 10px; 
+            
+            }
+        
+            
+            button {
+                background-color: var(--pink); 
+                color: white; 
+                border: none;
+                padding: 12px 20px; 
+                border-radius:20px; 
+                cursor: pointer;
+                outline: none;
+            }
+        }
+        
     .content {
         display: flex;
         flex-flow: row wrap;

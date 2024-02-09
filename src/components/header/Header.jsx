@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./style.scss";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
-import logo from "../../assets/movix-logo.svg";
+import logo from "../../assets/movix-rex-logo.svg";
 
 const Header = () => {
     const [show, setShow] = useState("top");
@@ -83,12 +83,7 @@ const Header = () => {
                     >
                         Movies
                     </li>
-                    <li
-                        className="menuItem"
-                        onClick={() => navigationHandler("tv")}
-                    >
-                        TV Shows
-                    </li>
+                
                     <li className="menuItem">
                         <HiOutlineSearch onClick={openSearch} />
                     </li>

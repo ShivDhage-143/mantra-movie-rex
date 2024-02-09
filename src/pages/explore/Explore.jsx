@@ -12,6 +12,7 @@ import MovieCard from "../../components/movieCard/MovieCard";
 import Spinner from "../../components/spinner/Spinner";
 
 let filters = {};
+const KEY = import.meta.env.VITE_API_KEY;
 
 const sortbyData = [
     { value: "popularity.desc", label: "Popularity Descending" },
@@ -28,11 +29,18 @@ const sortbyData = [
 
 const Explore = () => {
     const [data, setData] = useState(null);
+    const [releaseDate, setReleaseDate] =useState("");
+    const [releasedEndDate, setReleasedEndDate] =useState("");
     const [pageNum, setPageNum] = useState(1);
     const [loading, setLoading] = useState(false);
     const [genre, setGenre] = useState(null);
     const [sortby, setSortby] = useState(null);
-    const { mediaType } = useParams();
+    const [startDate, setStartDate] = useState(""); // New state for start date
+    const [endDate, setEndDate] = useState(""); // New state for end date
+    const { mediaType: paramsMediaType } = useParams();
+    const mediaType = paramsMediaType || "movie"; 
+
+    
 
     const { data: genresData } = useFetch(`/genre/${mediaType}/list`);
 
@@ -44,6 +52,23 @@ const Explore = () => {
             setLoading(false);
         });
     };
+    const fetchInitialDateData = () =>{
+        setLoading(true);
+        fetch(`https://api.themoviedb.org/3/discover/${mediaType}?api_key=${KEY}&include_adult=false&include_video=false&primary_release_date.gte=${releaseDate}&primary_release_date.lte=${releasedEndDate}`, filters
+        )
+                .then(response => response.json())
+                .then(response => setData(response))
+                .catch(err => console.error(err));
+                setPageNum((prev) => prev + 1);
+                setLoading(false);
+
+    };
+    useEffect(() => {
+        if (releaseDate !== "" && releasedEndDate !== "") {
+            fetchInitialDateData();
+        }
+    }, [releaseDate, releasedEndDate]);
+
 
     const fetchNextPageData = () => {
         fetchDataFromApi(
@@ -69,8 +94,10 @@ const Explore = () => {
         setSortby(null);
         setGenre(null);
         fetchInitialData();
-    }, [mediaType]);
+    
+    }, [mediaType,]);
 
+    
     const onChange = (selectedItems, action) => {
         if (action.name === "sortby") {
             setSortby(selectedItems);
@@ -94,6 +121,13 @@ const Explore = () => {
 
         setPageNum(1);
         fetchInitialData();
+    };
+
+    const handleSubmit = () => {
+
+        setReleaseDate(startDate);
+        setReleasedEndDate(endDate);
+        fetchInitialDateData();
     };
 
     return (
@@ -129,6 +163,53 @@ const Explore = () => {
                             className="react-select-container sortbyDD"
                             classNamePrefix="react-select"
                         />
+                        <div className="dateFilters">
+                               <div className="date-inputs">
+                               <input
+                                    type="date"
+                                    value={startDate ? startDate : ""}
+                                    onChange={(e) => {
+                                        const selectedDate = new Date(e.target.value);
+                                        const year = selectedDate.getFullYear();
+                                        let month = selectedDate.getMonth() + 1;
+                                        let day = selectedDate.getDate();
+
+                                        // Ensure month and day are two digits
+                                        month = month < 10 ? `0${month}` : month;
+                                        day = day < 10 ? `0${day}` : day;
+
+                                        // Construct the yyyy/mm/dd format
+                                        const formattedDate = `${year}-${month}-${day}`;
+
+                                        setStartDate(formattedDate);
+                                    }}
+                                />
+
+                                <input
+                                    
+                                    type="date"
+                                    value={endDate ? endDate : ""}
+                                    onChange={(e) => {
+                                        const selectedDate = new Date(e.target.value);
+                                        const year = selectedDate.getFullYear();
+                                        let month = selectedDate.getMonth() + 1;
+                                        let day = selectedDate.getDate();
+
+                                        // Ensure month and day are two digits
+                                        month = month < 10 ? `0${month}` : month;
+                                        day = day < 10 ? `0${day}` : day;
+
+                                        // Construct the yyyy/mm/dd format
+                                        const formattedDate = `${year}-${month}-${day}`;
+
+                                        setEndDate(formattedDate);
+                                    }}
+                                />
+
+
+                               <button onClick={handleSubmit}>Submit</button>
+                               </div>
+                        </div>
                     </div>
                 </div>
                 {loading && <Spinner initial={true} />}
