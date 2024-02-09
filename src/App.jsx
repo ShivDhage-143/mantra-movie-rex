@@ -23,6 +23,7 @@ function App() {
 
   useEffect(() => {
     fetchApiConfig();
+    genresCall();
   }, []);
 
   const fetchApiConfig = () =>  {
@@ -41,8 +42,8 @@ function App() {
 
   const genresCall = async ()=>{
          let promises = []
-         let endPoint = ["tv","movie"]
-         let allGeners = {}
+         let endPoints = ["tv","movie"]
+         let allGenres = {}
 
          endPoints.forEach((url)=>{
               promises.push(fetchDataFromApi(`/genre/${url}/list`))
