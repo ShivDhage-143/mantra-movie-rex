@@ -4,7 +4,7 @@ import "./style.scss";
 
 import useFetch from "../../hooks/useFetch";
 import DetailsBanner from "./detailsBanner/DetailsBanner";
-import Similar from "./carousels/similar";
+import Similar from "./carousels/Similar";
 import Recommendation from "./carousels/Recommendation";
 
 const Details = () => {
