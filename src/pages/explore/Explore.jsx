@@ -183,6 +183,7 @@ const Explore = () => {
 
                                         setStartDate(formattedDate);
                                     }}
+                                    placeholder="Start Date"
                                 />
 
                                 <input
@@ -204,6 +205,7 @@ const Explore = () => {
 
                                         setEndDate(formattedDate);
                                     }}
+                                    placeholder="End Date"
                                 />
 
 
